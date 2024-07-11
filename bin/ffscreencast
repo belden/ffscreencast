@@ -359,6 +359,18 @@ print_requirements() {
 			echo "          + Desktop recording possible."
 		fi
 
+		if ! can_screen_list; then
+			echo "[ERR]  [Linux]: xrandr not found."
+			echo "          - Screen listing not possible."
+			echo
+			echo "       Debian: apt-get x11-xserver-utils"
+			echo "       CentOS: yum install xorg-x11-server-utils"
+			echo "       Arch:   pacman -S xorg-xrandr"
+		else
+			echo "[OK]   [Linux]: xrandr found: $(which xrandr)"
+			echo "          + Screen listing possible."
+		fi
+
 		if ! can_audio_record; then
 			echo "[WARN] [Linux]: arecord not found."
 			echo "          - Sound recording not possible."
@@ -448,6 +460,25 @@ can_screen_record() {
 		fi
 	elif [ "${UNAME}" = "Linux" ]; then
 		if ! command -v xdpyinfo > /dev/null 2>&1; then
+			return "${EXIT_ERR}"
+		else
+			return "${EXIT_OK}"
+		fi
+	fi
+
+	# Hmm, no supported OS found, not good!
+	return "${EXIT_ERR}"
+}
+
+can_screen_list() {
+	if [ "${UNAME}" = "Darwin" ]; then
+		if ! can_screen_record; then
+			return "${EXIT_ERR}"
+		else
+			return "${EXIT_OK}"
+		fi
+	elif [ "${UNAME}" = "Linux" ]; then
+		if ! command -v xrandr > /dev/null 2>&1; then
 			return "${EXIT_ERR}"
 		else
 			return "${EXIT_OK}"
@@ -973,7 +1004,7 @@ fi
 
 # Check 'list devices' requirements
 if [ "${LIST_SCREEN_DEVS}" = "yes" ]; then
-	if ! can_screen_record; then
+	if ! can_screen_list; then
 		echo "Cannot list screen devices. Test requirements with:"
 		echo "${INFO_NAME} --test"
 		exit "${EXIT_ERR}"
@@ -994,7 +1025,7 @@ if [ "${LIST_CAMERA_DEVS}" = "yes" ]; then
 	fi
 fi
 if [ "${LIST_ALL_DEVS}" = "yes" ]; then
-	if ! can_screen_record; then
+	if ! can_screen_list; then
 		echo "Cannot list screen devices. Test requirements with:"
 		echo "${INFO_NAME} --test"
 		exit "${EXIT_ERR}"
