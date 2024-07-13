@@ -123,6 +123,33 @@ EXIT_OK="0"
 #
 ################################################################################
 
+
+###############################################################################
+# Timer Funtion
+###############################################################################
+
+# Main function to run the timer
+run_timer() {
+    start_time=$SECONDS
+    # display_timer="$(echo -ne "$(date -u --date @$((SECONDS - start_time)) +%H:%M:%S)\r")"
+    while true; do
+        echo -ne "$(date -u --date @$((SECONDS - start_time)) +%H:%M:%S)\r"
+        sleep 1
+    done 
+}
+
+# Trap CTRL+C to stop the timer and exit
+trap_ctrlc() {
+    echo -e "\nRecording stopped." 
+    exit
+}
+
+# Set up trap to catch CTRL+C and call trap_ctrlc function
+trap trap_ctrlc INT
+
+# Main script starts here
+echo "Press CTRL+C to stop the recording."
+
 ################################################################################
 # Helper Function
 ################################################################################
@@ -869,7 +896,8 @@ while [ $# -gt 0  ]; do
 			;;
 		-o*)
 			shift
-			NAME="$1"
+			NAME="$1" 
+            run_timer &
 			;;
 
 
@@ -1195,7 +1223,7 @@ fi
 
 
 #FFMPEG="ffmpeg"
-FFMPEG="${FFMPEG} -hide_banner -loglevel info"
+FFMPEG="${FFMPEG} -hide_banner -v quiet"
 
 # Video Options
 FFMPEG="${FFMPEG} -thread_queue_size 512"
