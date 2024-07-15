@@ -230,7 +230,7 @@ write_config() {
 			echo "CHOSEN_A_NUM=\"\""
 			echo "CHOSEN_C_NUM=\"\""
 			echo 
-		} >> "${conf}"
+		} > "${conf}"
 	fi
 
 }
