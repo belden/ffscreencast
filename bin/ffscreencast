@@ -135,12 +135,12 @@ run_timer() {
     while true; do
         echo -ne "$(date -u --date @$((SECONDS - start_time)) +%H:%M:%S)\r"
         sleep 1
-    done 
+    done
 }
 
 # Trap CTRL+C to stop the timer and exit
 trap_ctrlc() {
-    echo -e "\nRecording stopped." 
+    echo -e "\nRecording stopped."
     exit
 }
 
@@ -181,55 +181,55 @@ write_config() {
 
 		{
 			echo "# ~/.config/ffscreencast/ffscreencastrc"
-			echo 
+			echo
 
-			echo "# Default Directory to save video files" 
-			echo "DIR=\"$HOME/Videos\"" 
-			echo 
+			echo "# Default Directory to save video files"
+			echo "DIR=\"$HOME/Videos\""
+			echo
 
-			echo "# Default video container extension" 
-			echo "# Alternatively: 'mp4' or 'avi'" 
-			echo "OUTPUT_EXT=\"mkv\"" 
-			echo 
+			echo "# Default video container extension"
+			echo "# Alternatively: 'mp4' or 'avi'"
+			echo "OUTPUT_EXT=\"mkv\""
+			echo
 
-			echo "# Default audio output codec" 
-			echo "# Alternatively: 'pcm_s16le'" 
-			echo "OUTPUT_ACODEC=\"libfaac\"" 
-			echo 
+			echo "# Default audio output codec"
+			echo "# Alternatively: 'pcm_s16le'"
+			echo "OUTPUT_ACODEC=\"libfaac\""
+			echo
 
-			echo "# Default video output codec" 
-			echo "# Alternatively: 'libx265'" 
-			echo "OUTPUT_VCODEC=\"libx264\"" 
-			echo 
+			echo "# Default video output codec"
+			echo "# Alternatively: 'libx265'"
+			echo "OUTPUT_VCODEC=\"libx264\""
+			echo
 
 
-			echo "# Default Screen recording arguments" 
-			echo "S_ARGS=\"\"" 
-			echo 
+			echo "# Default Screen recording arguments"
+			echo "S_ARGS=\"\""
+			echo
 
-			echo "# Default audio recording arguments" 
-			echo "A_ARGS=\"-ac 2\"" 
-			echo 
+			echo "# Default audio recording arguments"
+			echo "A_ARGS=\"-ac 2\""
+			echo
 
-			echo "# Default camera recording arguments" 
-			echo "C_ARGS=\"\"" 
-			echo 
+			echo "# Default camera recording arguments"
+			echo "C_ARGS=\"\""
+			echo
 
-			echo "# Default misc output arguments" 
-			echo "O_ARGS=\"-crf 0 -preset ultrafast\"" 
-			echo 
+			echo "# Default misc output arguments"
+			echo "O_ARGS=\"-crf 0 -preset ultrafast\""
+			echo
 
 			echo "# Default recording behavior"
 			echo "RECORD_S=\"yes\""
 			echo "RECORD_A=\"no\""
 			echo "RECORD_C=\"no\""
-			echo 
+			echo
 
 			echo "# What listed device number has been chosen to record?"
 			echo "CHOSEN_S_NUM=\"\""
 			echo "CHOSEN_A_NUM=\"\""
 			echo "CHOSEN_C_NUM=\"\""
-			echo 
+			echo
 		} > "${conf}"
 	fi
 
@@ -306,7 +306,7 @@ print_help() {
 	echo "                  Specify additional ffmpeg arguments for the output encoding."
 	echo "                  Use: --oargs=\"-crf 0\""
 	echo "                  Default: '-crf 0 -preset ultrafast'"
-	echo 
+	echo
 	echo "-o           Output video file name"
 	echo
 	echo
@@ -896,8 +896,8 @@ while [ $# -gt 0  ]; do
 			;;
 		-o*)
 			shift
-			NAME="$1" 
-            run_timer &
+			NAME="$1"
+			run_timer &
 			;;
 
 
@@ -1267,4 +1267,3 @@ else
 	echo "$FFMPEG"
 	eval "$FFMPEG"
 fi
-
